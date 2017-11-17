@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<!-- 一定要引用 -->
+	<script src="http://localhost:8082/socket.io/socket.io.js" charset="utf-8"></script>
+	<script>
+		let sock = io.connect('ws://localhost:8082');
+
+		//消息名字a，参数...
+		sock.emit('a', 1, 2, 3, 4, 5);
+	</script>
+</head>
+<body>
+	<form action="">
+		用户名：<input type="text">
+		密码：	<input type="text">
+	</form>
+</body>
+</html>

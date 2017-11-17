@@ -1,0 +1,17 @@
+## npm
+
+### cnpm安装
+npm install -g cnpm --registry=https://registry.npm.taobao.org
+
+### 初始化
+cnpm init
+
+### 安装
+cnpm i socket.io -D
+
+## MYSQL
+
+### 安装
+```
+cnpm search mysql
+```
