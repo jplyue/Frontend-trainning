@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script>
+		$(function(){
+			$('#btn1').click(function(){
+				$.ajax({
+					url: '/reg',
+					data: {user: $('#user').val(), pass: $('#pass').val()},
+					dataType: 'json',
+					success: function(res){
+						console.log(res)
+						//服务器回应了
+						if(res.code){
+							alert('注册失败 '+res.msg);
+						}else{
+							//success
+						}
+					},
+					error(err){
+						//网络不通，服务器没有文件
+						alert('错了');
+					}
+				})
+			});
+
+			$('#btn2').click(function(){
+				$.ajax({
+					url: '/login',
+					data: {user: $('#user').val(), pass: $('#pass').val()},
+					dataType: 'json',
+					success: function(res){
+						console.log(res)
+						//服务器回应了
+						if(res.code){
+							alert('登录失败 '+res.msg);
+						}else{
+							//success
+							alert('登录成功 '+res.msg);
+						}
+					},
+					error(err){
+						//网络不通，服务器没有文件
+						alert('登陆失败');
+					}
+				})
+			});
+		});
+	</script>
+</head>
+<body>
+	用户：<input type="text" id="user">
+	密码：<input type="text" id="pass">
+	<input type="button" value="注册" id="btn1">
+	<input type="button" value="登录" id="btn2">
+</body>
+</html>
