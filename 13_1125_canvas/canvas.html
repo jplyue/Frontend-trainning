@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Canvas 动画</title>
+    <style media="screen">
+      body{ background-color: black; text-align: center; }
+    #c1{ background-color: white; /*width: 800px; height: 600px;*/ }
+    </style>
+
+    <script type="text/javascript">
+      window.onload = function(){
+        let oC = document.getElementById('c1');
+        let gd = oC.getContext('2d');
+        let l = 50;
+
+        setInterval(function(){
+          l += 5;
+          gd.strokeRect(l, 50, 100, 70);
+        }, 16)
+
+      }
+    </script>
+  </head>
+  <body>
+      <!-- 属性的宽高才能决定显示多大，css中的宽高只是拉伸作用 -->
+      <!-- 画布就像在纸上画画一样，不可撤销 -->
+      <canvas id="c1" width="800" height="600"></canvas>
+  </body>
+</html>
