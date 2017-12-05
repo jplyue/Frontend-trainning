@@ -10,7 +10,7 @@
 		#banner{ width: 125rem; transform: translate(0px); overflow: hidden; }
 		#banner li{ float: left; width: 25rem; height: 7.8rem;  }
 		#wrap{ background: #ccc; }
-		#content{ background-color: #fff; }
+		#content{ background-color: #fff; overflow: hidden;}
 	</style>
 	<script>
 		window.onload = function(){
@@ -20,6 +20,15 @@
 
 			//拖
 			let banner = document.getElementById('banner');
+			let content = document.getElementById('content');
+			let banner_ul = banner.children[0];
+			let banner_left = 0;
+			let content_top = 0;
+
+			//前面加一个
+
+			//后面加一个
+
 
 			banner.addEventListener('touchstart', function(ev){
 				let startX = ev.targetTouches[0].clientX;//起点
@@ -29,6 +38,8 @@
 				function fnMove(ev){
 					let x = ev.targetTouches[0].clientX;
 					let y = ev.targetTouches[0].clientY;
+					let disX = startX - banner_left;
+					let disY = startY - content_top;
 					//阈值：5，哪个方向超出了5，认为就在那个方向移动
 					//方向确定了你就不能改变了
 					if(!dir){//方向待确定
@@ -39,17 +50,14 @@
 						}
 					}else{//方向已经确定
 						if(dir == 'x'){//处理的是banner的移动
-
+							banner_left = x - disX;
+							banner_ul.style.transform = `translateX(${banner_left}px)`;
 						}else if(dir == 'y'){//处理的是页面的移动
-
+							content_top = y - disY;
+							content.style.transform = `translateY(${content_top}px)`;
 						}
 					}
 					
-					banner_left = x - disX;
-					banner_ul.style.transform = `translateX(${banner_left}px)`;
-
-					content_top = y - disY;
-					content_top.style.transform = `translateY(${content_top}px)`;
 				}	
 
 				function fnEnd(){
@@ -78,6 +86,9 @@
 					<li style="background: #0FC">5</li>
 				</ul>
 			</div>
+			<ol>
+				<li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi tempora consequuntur quod esse nulla accusamus atque quibusdam, fuga doloremque deserunt quae assumenda et doloribus illum expedita inventore, culpa distinctio, ducimus.</li><li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi tempora consequuntur quod esse nulla accusamus atque quibusdam, fuga doloremque deserunt quae assumenda et doloribus illum expedita inventore, culpa distinctio, ducimus.</li><li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi tempora consequuntur quod esse nulla accusamus atque quibusdam, fuga doloremque deserunt quae assumenda et doloribus illum expedita inventore, culpa distinctio, ducimus.</li><li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi tempora consequuntur quod esse nulla accusamus atque quibusdam, fuga doloremque deserunt quae assumenda et doloribus illum expedita inventore, culpa distinctio, ducimus.</li><li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi tempora consequuntur quod esse nulla accusamus atque quibusdam, fuga doloremque deserunt quae assumenda et doloribus illum expedita inventore, culpa distinctio, ducimus.</li><li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi tempora consequuntur quod esse nulla accusamus atque quibusdam, fuga doloremque deserunt quae assumenda et doloribus illum expedita inventore, culpa distinctio, ducimus.</li><li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi tempora consequuntur quod esse nulla accusamus atque quibusdam, fuga doloremque deserunt quae assumenda et doloribus illum expedita inventore, culpa distinctio, ducimus.</li><li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi tempora consequuntur quod esse nulla accusamus atque quibusdam, fuga doloremque deserunt quae assumenda et doloribus illum expedita inventore, culpa distinctio, ducimus.</li><li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi tempora consequuntur quod esse nulla accusamus atque quibusdam, fuga doloremque deserunt quae assumenda et doloribus illum expedita inventore, culpa distinctio, ducimus.</li>
+			</ol>
 		</div>
 	</div>
 	
