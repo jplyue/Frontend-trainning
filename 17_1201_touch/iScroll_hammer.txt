@@ -1,0 +1,61 @@
+iScroll
+=====
+
+功能：scrolling, zooming, panning, infinite scrolling, parallax scrolling, carousels to your projects 
+大小：4kb
+
+- 精细控制滚动位置，即使是在运动中，随时可以设置和获取scroller的x，y的值
+- 动画
+- 自定义事件 onBeforeScrollStart, onScrollStart, onScroll, onScrollEnd, flick,
+- 跨浏览器兼容支持
+
+使用的是querySelector，而不是querySelectorAll
+
+在window.onload中启动即可，此时必须知道滚动区的宽高大小，给div添加position:relative or absolute，可以解决大多数计算bug
+
+最简配置
+
+```
+<head>
+...
+<script type="text/javascript" src="iscroll.js"></script>
+<script type="text/javascript">
+var myScroll;
+function loaded() {
+    myScroll = new IScroll('#wrapper');
+}
+</script>
+</head>
+...
+<body onload="loaded()">
+<div id="wrapper">
+    <ul>
+        <li>...</li>
+        <li>...</li>
+        ...
+    </ul>
+</div>
+</body>
+```
+
+> 如果你有异步情况，可以加个100 or 200 milliseconds的setTimeout事件来启动
+
+传参方式：
+
+```
+var myScroll = new IScroll('#wrapper', {
+    mouseWheel: true,
+    scrollbars: true
+});
+
+//然后你就可以这样访问：
+console.dir(myScroll.options);
+
+//此时返回的options是处理过的，因为即使设置了true，如果浏览器不支持，还是会返回false
+```
+
+options参数分析
+
+	useTransform: 使用CSS的transform属性，效率高。但是Flash, iframes and videos时可能需要禁用，但是性能降低许多(默认开启)
+
+	useTransition: 

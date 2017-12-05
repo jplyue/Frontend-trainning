@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>缩放</title>
+	<meta name="viewport" content="width=device-width,user-scalable=no">
+	<style>
+		.box{ width: 200px; height: 200px; background-color: yellow; text-align: center; line-height: 200px; margin: 100px auto 0; }
+	</style>
+	<script>
+		window.onload = function(){
+			let oDiv = document.querySelector('.box');
+
+			oDiv.addEventListener('touchstart', function(ev){
+				//横向距离的平方+纵向距离的平方 -- 开方
+				let dis = Math.sqrt(Math.pow(ev.targetTouches[0].clientX - ev.targetTouches[1].clientX, 2) + Math.pow(ev.targetTouches[0].clientY - ev.targetTouches[1].clientY, 2));
+
+				let w = oDiv.offsetWidth, h = oDiv.offsetHeight;
+
+				function fnMove(ev){
+					if(ev.targetTouches.length >= 2){
+						let dis2 = Math.sqrt(Math.pow(ev.targetTouches[0].clientX - ev.targetTouches[1].clientX, 2) + Math.pow(ev.targetTouches[0].clientY - ev.targetTouches[1].clientY, 2));
+						// w2 = dis2 * w1 / dis
+
+						oDiv.style.width = dis2 * w/dis + 'px';
+						oDiv.style.height = dis2 * h/dis + 'px';
+						oDiv.style.lineHeight = oDiv.style.height;
+					}
+					ev.preventDefault();
+				}
+
+				function fnEnd(ev){
+					oDiv.removeEventListener('touchmove', fnMove, false);
+					oDiv.removeEventListener('touchend', fnEnd, false);
+					ev.preventDefault();
+				}
+					
+				ev.preventDefault();
+				if(ev.targetTouches.length >= 2){
+					oDiv.addEventListener('touchmove', fnMove, false);
+					oDiv.addEventListener('touchend', fnEnd, false);
+				}
+			}, false);
+		}
+	</script>
+</head>
+<body>
+	<div class="box">各种文字</div>
+</body>
+</html>

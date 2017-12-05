@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>方向锁定</title>
+	<meta name="viewport" content="width=device-width,user-scalable=no">
+	<style>
+		* { margin: 0; padding: 0; list-style: none; }
+		html{ font-size: 20px; }
+		#banner{ width: 125rem; transform: translate(0px); overflow: hidden; }
+		#banner li{ float: left; width: 25rem; height: 7.8rem;  }
+		#wrap{ background: #ccc; }
+		#content{ background-color: #fff; }
+	</style>
+	<script>
+		window.onload = function(){
+			//rem
+			//rem/fontSize=rem2/fontSize
+			document.documentElement.style.fontSize = document.documentElement.clientWidth*20/500+'px';
+
+			//拖
+			let banner = document.getElementById('banner');
+
+			banner.addEventListener('touchstart', function(ev){
+				let startX = ev.targetTouches[0].clientX;//起点
+				let startY = ev.targetTouches[0].clientY;
+				let dir = '';
+
+				function fnMove(ev){
+					let x = ev.targetTouches[0].clientX;
+					let y = ev.targetTouches[0].clientY;
+					//阈值：5，哪个方向超出了5，认为就在那个方向移动
+					//方向确定了你就不能改变了
+					if(!dir){//方向待确定
+						if(Math.abs(ev.targetTouches[0].clientX - startX) >= 5){//横向移动的距离
+							dir = 'x';
+						}else if(Math.abs(ev.targetTouches[0].clientY - startY) >= 5){
+							dir = 'y';
+						}
+					}else{//方向已经确定
+						if(dir == 'x'){//处理的是banner的移动
+
+						}else if(dir == 'y'){//处理的是页面的移动
+
+						}
+					}
+					
+					banner_left = x - disX;
+					banner_ul.style.transform = `translateX(${banner_left}px)`;
+
+					content_top = y - disY;
+					content_top.style.transform = `translateY(${content_top}px)`;
+				}	
+
+				function fnEnd(){
+					banner.removeEventListener('touchmove', fnMove, false);
+					banner.removeEventListener('touchend', fnEnd, false);
+				}
+
+				banner.addEventListener('touchmove', fnMove, false);
+				banner.addEventListener('touchend', fnEnd, false);
+				
+
+			}, false)
+
+		}
+	</script>
+</head>
+<body>
+	<div id="wrap">
+		<div id="content">
+			<div class="wrapper" id="banner">
+				<ul >
+					<li style="background: #FC0">1</li>
+					<li style="background: #F0C">2</li>
+					<li style="background: #0CF">3</li>
+					<li style="background: #F0C">4</li>
+					<li style="background: #0FC">5</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+</body>
+</html>

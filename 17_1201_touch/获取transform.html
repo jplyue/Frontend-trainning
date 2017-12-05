@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>旋转</title>
+	<meta name="viewport" content="width=device-width,user-scalable=no">
+	<style>
+		/*.box{ width: 200px; height: 200px; background-color: yellow; transform: rotate(45deg); }*/
+		.box{ width: 200px; height: 200px; background-color: yellow; transform: scale(0.707) skew(-45deg, 45deg); }
+	</style>
+	<script>
+		window.onload = function(){
+			let oBox = document.getElementsByClassName('box')[0];
+			console.log(getComputedStyle(oBox, false).transform);
+			//样式一：matrix(0.707107, 0.707107, -0.707107, 0.707107, 0, 0)
+			//矩阵是不可以逆运算的
+			//样式二：mmatrix(0.707, 0.707, -0.707, 0.707, 0, 0)
+			//得到的结果是相同，所以写法不唯一，所以无法逆运算
+
+			//没有办法获取rotate的值，找个变量来存
+		}
+	</script>
+</head>
+<body>
+	<div class="box">各种文字</div>
+</body>
+</html>

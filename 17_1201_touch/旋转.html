@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>旋转</title>
+	<meta name="viewport" content="width=device-width,user-scalable=no">
+	<style>
+		.box{ width: 200px; height: 200px; background-color: yellow; text-align: center; line-height: 200px; margin: 100px auto 0; }
+	</style>
+	<script>
+		window.onload = function(){
+			let oDiv = document.querySelector('.box');
+
+			let old_ang = 0;
+
+			oDiv.addEventListener('touchstart', function(ev){
+				console.log(ev.targetTouches[0])
+				//大于2个手指操作时才执行
+				//clientX -- 屏幕上的坐标
+				let a = ev.targetTouches[0].clientX - ev.targetTouches[1].clientX;
+				let b = ev.targetTouches[0].clientY - ev.targetTouches[1].clientY;
+
+				//Math.atan(a/b) or Math.atan2(b,a)
+				// *180/PI -- 换算成弧度
+				let ang = Math.atan2(b, a)*180/Math.PI;
+
+				let start_ang = old_ang;//按下的时候的初始角度
+
+				ev.preventDefault();
+
+				if(ev.targetTouches.length >= 2){
+					function fnMove(ev){
+						if(ev.targetTouches.length >= 2){
+							let a = ev.targetTouches[0].clientX - ev.targetTouches[1].clientX;
+							let b = ev.targetTouches[0].clientY - ev.targetTouches[1].clientY;
+
+							//Math.atan(a/b) or Math.atan2(b,a)
+							let ang2 = Math.atan2(b, a)*180/Math.PI;
+							old_ang = start_ang + ang2 - ang
+							oDiv.style.transform = `rotate(${old_ang}deg)`;
+							////那么问题来了，每次旋转的时候都会跳回0度位置重新开始旋转。因为每次ang2-ang都没有考虑物体初始的角度
+							//使用old_ang
+						}
+						ev.preventDefault();
+					}
+
+					function fnEnd(){
+						oDiv.removeEventListener('touchmove', fnMove, false);
+						oDiv.removeEventListener('touchend', fnEnd, false)
+					}
+
+					oDiv.addEventListener('touchmove', fnMove, false);
+					oDiv.addEventListener('touchend', fnEnd, false)
+				}
+
+			}, false);
+
+		}
+	</script>
+</head>
+<body>
+	<div class="box">各种文字</div>
+</body>
+</html>

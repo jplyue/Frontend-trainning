@@ -1,0 +1,76 @@
+原生touch特别麻烦
+1. isScroll
+2. hammer
+3. PEP
+
+1. 手势识别(hammer)
+	
+	旋转
+
+	缩放
+
+2. 方向锁定
+指的就是，左右拖动物体的时候，上下拖动失效。上下拖动物体时，左右的拖动失效。一般左右拖动banner，上下拖动的是下拉刷新
+
+3. 下拉刷新，上拉加载更多
+
+---
+
+PC端：mouse
+移动端：touch
+
+PC+移动端：兼容解决方案：pointer->mouse+touch
+
+IE10+ 支持，不兼容touch事件
+onpointerstart
+onpointermove
+onpointerend
+
+微软出了hand.js，处理pointer，touch事件——项目已关闭
+
+---更换为jquery PEP
+
+------------------------------------------
+
+真机测试移动端：
+1. browser-sync 	多端同步
+2. webpack			多端同步，一站式
+3. 服务器(wamp, node)			容易
+------------------------------------------
+
+
+插播：if里定义function不好
+
+js编译的时候，会把所有function提到前面
+
+let a = 12;
+
+show();
+if(a%2==0){
+	function show(){ console.log('a是偶数') }
+}else{
+	function show(){ console.log('a是奇数') }
+}
+
+浏览器的执行结果可能不一致
+
+使用'user strict' 会报错
+
+--------------------------------------------------------
+
+## 2 方向锁定
+
+> 移动端做东西，不要用position: absolute; 一律用translate; 动画尽量不用js完成，用transition完成性能最高
+
+假定 手机端基本宽度 = 500
+
+750*234
+
+1. 基准宽度=500
+500 * 156
+
+2. rem
+
+25rem * 7.8rem
+
+---------------------------------------------------------
