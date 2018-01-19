@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>D3-Force</title>
+	<script src="d3.js"></script>
+
+	<script>
+		// 制作多个子节点围绕一个节点
+		//node  	links
+		// 三角形连接
+		window.onload = function(){
+			let oC = document.getElementById('c1');
+			let gd = oC.getContext('2d');
+
+			let nodes =  [
+				{ name: 'n1'}, //用于定义每个节点的名字
+				{ name: 'n2'},
+				{ name: 'n3'},
+			];
+
+			// 节点之间的关联
+			let links = [
+				{ source: 'n1', target: 'n2', value: 3 },
+				{ source: 'n2', target: 'n3', value: 4 },
+				{ source: 'n3', target: 'n1', value: 5 },
+			]
+
+			let sim = d3.forceSimulation()
+				.nodes(nodes) /*节点*/
+				.force('link', d3.forceLink(links).id(item=>item.name).distance(item=>item.value))	/*节点之间的关联, 将links封装成需要的格式，id是访问器, distace是物体的距离*/
+				.force('charge', d3.forceManyBody())	/*多体*/
+				.force('center', d3.forceCenter(400, 300))	/*定义物体的中点*/
+
+			//往前走一下，叫tick
+			sim.on('tick', function(){
+				//console.log(nodes);
+				// x, y 是位置
+				// vx vy 是速度, 连接是个力
+				//index 是序号
+			});
+		}
+	</script>
+</head>
+<body>
+	<!-- d3 偏向svg -->
+	<canvas id="c1" width="800" height="600"></canvas>
+
+</body>
+</html>

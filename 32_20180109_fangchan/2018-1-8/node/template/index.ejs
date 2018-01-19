@@ -21,10 +21,10 @@
         <div class="navbar navbar-default">
           <form class="navbar-form navbar-left" action="index.html" method="post">
             <div class="form-group" style="margin-right:20px;">
-              <button id="btn_add"type="button" class="btn btn-default glyphicon glyphicon-plus">新建</button>
+              <button id="btn_add" type="button" class="btn btn-default glyphicon glyphicon-plus">新建</button>
             </div>
             <div class="form-group" style="margin-right:20px;">
-              <button id="btn_delete" type="button" class="btn btn-default glyphicon glyphicon-remove">删除</button>
+              <button id="btn_del" type="button" class="btn btn-default glyphicon glyphicon-remove">删除</button>
             </div>
             <div class="form-group">
               <input type="search" class="form-control">
@@ -67,23 +67,23 @@
             </tr>
           </thead>
           <tbody>
-              <% data.forEach(json=>{ %>
+            <% data.forEach(json=>{ %>
             <tr>
               <td>
                 <label>
-                  <input type="checkbox" name="ID_check" value="<%= json.ID %>">
-                  <%= json.ID %>
+                  <input type="checkbox">
+                  <%=json.ID%>
                 </label>
               </td>
-              <td> <%= json.title %></td>
-              <td> <%= json.ave_price %> </td>
-              <td> <%= json.tel %></td>
+              <td><%=json.title%></td>
+              <td><%=json.ave_price%></td>
+              <td><%=json.tel%></td>
               <td>
                 <a href="javascript:;">编辑</a>
-                <a href="/admin/house/delete?id=<%=json.ID%>" onclick="return confirm('你确定删除这个房屋的信息吗？删除不可撤销')">删除</a>
+                <a href="/admin/house/delete?id=<%=json.ID%>" onclick="return confirm('你确定删除这个房屋信息吗？删除不可撤销')">删除</a>
               </td>
             </tr>
-             <% }) %>
+            <% }); %>
           </tbody>
         </table>
       </div>
@@ -98,12 +98,13 @@
         </h3>
       </div>
       <div class="panel-body" style="overflow:auto; height:460px;">
-          <!-- ?指当前页面地址 -->
         <form class="form-horizontal" action="?" method="post" enctype="multipart/form-data">
-            <div id="form_container">
 
-            </div>
-          <!-- <div class="form-group">
+          <div id="form_contrainer">
+
+          </div>
+
+          <!--<div class="form-group">
             <label for="id1" class="col-sm-2 control-label">数据1</label>
             <div class="col-sm-10">
               <input type="text" class="form-control" id="id1" placeholder="请输入数据...">
@@ -141,7 +142,7 @@
             <div class="col-sm-10">
               <input type="file" class="form-control">
             </div>
-          </div> -->
+          </div>-->
 
           <div class="form-group">
             <div class="col-sm-10 col-sm-offset-2">
@@ -153,86 +154,65 @@
       </div>
     </div>
 
+
     <script>
-        const $ = document.querySelectorAll.bind(document);
+    const $=document.querySelectorAll.bind(document);
 
-        //打开关闭
-        let oShadow = $('#shadow')[0];
-        let oDialog = $('#dialog')[0];
-        let oBtnAdd = $('#btn_add')[0];
-        let oBtnClose = $('#btn_close')[0];
-        let oBtnCancel = $('#btn_cancel')[0];
+    //打开关闭
+    let oShadow=$('#shadow')[0];
+    let oDialog=$('#dialog')[0];
+    let oBtnAdd=$('#btn_add')[0];
+    let oBtnClose=$('#btn_close')[0];
+    let oBtnCancel=$('#btn_cancel')[0];
 
-        oBtnAdd.onclick = function(){
-            oShadow.style.display = 'block';
-            oDialog.style.display = 'block';
-        }
+    oBtnAdd.onclick=function (){
+      oShadow.style.display='block';
+      oDialog.style.display='block';
+    };
 
-        oBtnClose.onclick = oBtnCancel.onclick= function(){
-            oShadow.style.display = 'none';
-            oDialog.style.display = 'none';
-        }
+    oBtnCancel.onclick=oBtnClose.onclick=function (){
+      oShadow.style.display='none';
+      oDialog.style.display='none';
+    };
 
-        //动态生成表单
-        let oFormContainer = $('#form_container')[0];
+    //动态生成表单
+    let oFormContainer=$('#form_contrainer')[0];
 
-        const form_inputs = [
-            {type: 'text', name: 'title', title: '标题'},
-            {type: 'text', name: 'sub_title', title: '副标题'},
-            {type: 'text', name: 'position_main', title: '主位置'},
-            {type: 'text', name: 'position_second', title: '副位置'},
-            {type: 'number', name: 'ave_price', title: '均价'},
-            {type: 'number', name: 'area_min', title: '最小面积'},
-            {type: 'number', name: 'area_max', title: '最大面积'},
-            {type: 'tel', name: 'tel', title: '电话'},
-            {type: 'date', name: 'sale_time', title: '开盘日期'},
-            {type: 'date', name: 'submit_time', title: '交房日期'},
-            {type: 'text', name: 'building_type', title: '建筑类型'},
-            {type: 'file', name: 'main_img', title: '大图'},
-            {type: 'file', name: 'img', title: '小图(可多选)', multiple: true},
-            {type: 'text', name: 'property_types', title: '户型'},
-            {type: 'file', name: 'property_img', title: '户型图'},
-        ]
+    const form_inputs=[
+      {type: 'text', name: 'title', title: '标题'},
+      {type: 'text', name: 'sub_title', title: '副标题'},
+      {type: 'text', name: 'position_main', title: '主位置'},
+      {type: 'text', name: 'position_second', title: '副位置'},
+      {type: 'number', name: 'ave_price', title: '均价'},
+      {type: 'number', name: 'area_min', title: '最小面积'},
+      {type: 'number', name: 'area_max', title: '最大面积'},
+      {type: 'tel', name: 'tel', title: '电话'},
+      {type: 'date', name: 'sale_time', title: '开盘日期'},
+      {type: 'date', name: 'submit_time', title: '交房日期'},
+      {type: 'text', name: 'building_type', title: '建筑类型'},
+      {type: 'file', name: 'main_img', title: '大图'},
+      {type: 'file', name: 'img', title: '小图(多选)', multiple: true},
+      {type: 'text', name: 'property_types', title: '户型'},
+      {type: 'file', name: 'property_img', title: '户型图'},
+    ];
 
-        oFormContainer.innerHTML = '';
+    oFormContainer.innerHTML='';
 
-        for(let i=0; i<form_inputs.length; i++){
-            let oDiv = document.createElement('div');
-            let data = form_inputs[i];
+    for(let i=0;i<form_inputs.length;i++){
+      let data=form_inputs[i];
+      let oDiv=document.createElement('div');
 
-            oDiv.className = 'form-group';
-            oDiv.innerHTML = `
-                                <div class="form-group">
-                                  <label for="id${i}" class="col-sm-2 control-label">${data.title}</label>
-                                  <div class="col-sm-10">
-                                    <input type="${data.type}" ${data.multiple?'multiple':''} name="${data.name}" class="form-control" id="id${i}" placeholder="请输入${data.title}">
-                                  </div>
-                                </div>
-                                `;
-            oFormContainer.appendChild(oDiv);
-        }
+      oDiv.className='form-group';
+      oDiv.innerHTML=
+      `
+      <label for="id${i}" class="col-sm-2 control-label">${data.title}</label>
+      <div class="col-sm-10">
+        <input type="${data.type}" ${data.multiple?'multiple':''} class="form-control" name="${data.name}" id="id${i}" placeholder="请输入${data.title}...">
+      </div>
+      `;
 
-
-
-        //删除
-        let oBtnDelBat = $('#btn_delete')[0];
-        let aCheck = Array.from(document.getElementsByName('ID_check'));
-        oBtnDelBat.onclick = function(){
-          let arr = [];
-
-          aCheck.forEach(ch=>{
-            if(ch.checked){
-              arr.push(ch.value);
-            }
-          });
-
-          let url = `/admin/house/delete?id=${encodeURIComponent(arr.join(','))}`;
-          
-          if(confirm(`您真的要删除这${arr.length}条数据吗？`)){
-            window.location = url;
-          }
-        }
-
+      oFormContainer.appendChild(oDiv);
+    }
     </script>
   </body>
 </html>

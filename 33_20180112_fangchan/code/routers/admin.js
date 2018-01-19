@@ -192,9 +192,9 @@ router.get('/house/delete', (req, res)=>{
 	//全是数字字母，字母只到F
 	let b_err=false;
 	aID.forEach(item=>{
-		if(/^(\d[a-f]){32}$/.test(item){
+		if(/^(\d[a-f]){32}$/g.test(item)){
 			b_err=true;
-		});
+		};
 	});	
 
 	if(b_err){
@@ -223,49 +223,61 @@ router.get('/house/delete', (req, res)=>{
 
 					//property_img_real_paths
 					arr.push(data[0]['main_img_real_path']);
-					data[0]['img_real_paths'].split(',').forEach(item=>{
-						arr.push(item);
-					});
-					data[0]['property_img_real_paths'].split(',').forEach(item=>{
-						arr.push(item);
-					});
+					if(data[0]['img_real_paths']){
+						data[0]['img_real_paths'].split(',').forEach(item=>{
+							arr.push(item);
+						});
+					}
+					if(data[0]['property_img_real_paths']){
+						data[0]['property_img_real_paths'].split(',').forEach(item=>{
+							arr.push(item);
+						});
+					}
 
-					//删除方法: rm和unlink
-					let i = 0;
-					next();
-					function next(){
-						fs.unlink(arr[i], err=>{
+					function deleteFromDB(){
+						req.db.query(`DELETE FROM house_table WHERE ID='${ID}'`, err=>{
 							if(err){
-								res.sendStatus(500);
 								console.log(err);
+								res.sendStatus(500);
 							}else{
-								i++;
-
-								if(i>=arr.length){
-									//删除文字完事
-									//2. 删除数据本身
-									req.db.query(`DELETE FROM house_table WHERE ID='${ID}'`, err=>{
-										if(err){
-											console.log(err);
-											res.sendStatus(500);
-										}else{
-											//res.redirect('/admin/house');
-										}
-									})
-								}else{
-									next();
+								//res.redirect('/admin/house');
+								if(id_index < aID.length){
+									_next();
+								}else{//跳转house列表
+									res.redirect('/admin/house');
 								}
 							}
-						});
+						})
+					}
+
+					if(arr.length > 0){
+						//删除方法: rm和unlink
+						let i = 0;
+						
+						next();
+						function next(){
+							fs.unlink(arr[i], err=>{
+								if(err){
+									res.sendStatus(500);
+									console.log(err);
+								}else{
+									i++;
+
+									if(i>=arr.length){
+										//删除文字完事
+										//2. 删除数据本身
+										deleteFromDB();
+									}else{
+										next();
+									}
+								}
+							});
+						}
+					}else{//没有文件可以删除
+						deleteFromDB();
 					}
 				}
 			});
-
-			if(id_index < aID.length){
-				_next();
-			}else{//跳转house列表
-				res.redirect('/admin/house');
-			}
 		}
 	}
 	//1. 删除相关联的图片

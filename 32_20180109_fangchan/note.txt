@@ -1,0 +1,11 @@
+1. 后台：安全
+2. 身份验证
+    a.  cookie/session      理想
+    b.  token               跨域
+3. token很简单，相当于自己构建了一个session
+
+sql触发器：事件；新增用户后，用户总数量+1
+外键：admin_ID和另一个表中的admin_ID相对应
+
+
+sql里的引号是定界符
