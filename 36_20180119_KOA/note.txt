@@ -1,0 +1,99 @@
+KOA:
+
+1. 简单，重点在第三方中间件 -> 中间件
+2. express、koa
+
+koa本身、有用组件(cookie, session, static, 中间件)
+
+----------------------------------------------------------------------------------------------
+
+koa和express的区别：
+
+1. koa没有static，需要加载koa-static
+2. koa没有get, post, use不能指定地址，强依赖router
+express只依赖自身也能用，koa不行
+	koa-route (小东西) 比较简单，无法实现复杂的东西
+		路由参数		直接给中间件函数加参数-ctx, ..., next
+
+		server.use(route.get(xxx))
+	koa-router (大项目) 过于复杂，乱，类似express
+		路由参数		ctx.params
+
+		let r1 = router();
+		server.use(r1.routes())
+
+		r1.get(xxx)
+
+3. 中间件
+	方便
+
+	ctx.req/res 				原生的
+	ctx.request/response		koa封装过的
+
+----------------------------------------------------------------------------------------------
+
+
+基本：
+
+koa原理
+
+
+
+
+----------------------------------------------------------------------------------------------
+require的查找顺序
+
+1. 系统模块， nodejs的安装目录，除非是带路径的../
+2. 系统的node_modules,
+3. 当前目录的node_modules
+4. 上一级目录的node_modules
+
+-----
+module：模块信息
+-----
+
+-D	会指定假如到package.json里
+-----
+
+-----
+Bom导致的空白，可以去掉前两个字节==
+-----
+
+KOA与express的优势？
+1. 异步-> 同步
+2. 灵活，写的过程
+
+-----
+
+OAuth认证=>单点登录
+
+淘宝系的登录，都是同一套用户，维护修改费劲。一个网站体系之内，域名可以不同，用同一套登录代码，集中管理用户的信息，认证。
+
+					OAuth
+			判断登录成功还是失败
+			user_token
+
+	
+网站A								网站B
+生成token/记录time
++各种数据
+
+------> OAuth -----user_token----> A
+
+网站进行敏感操作的时候，会拿着user_token去OAuth再进行校验
+OAuth有时还兼顾权限管理，检查通过后，告诉A可以继续弄
+
+--------------------
+
+onunload --- 浏览器规定某些操作不能进行。不能进行dom操作、不能定时器、...
+
+每隔十秒钟发个包，超过30s没有接到包，认为用户关闭了页面
+
+---------------------
+
+请求java数据
+node按照前端的习惯，把数据封装好给java request(url, method, headers[cookie]（cookies）)
+
+java给你headers:set-cookie给node，node转给web set-cookies
+
+前台过来是socket, node把两者pip起来，还需要监控两者的同时性
