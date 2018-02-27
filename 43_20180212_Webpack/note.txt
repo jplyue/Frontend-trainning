@@ -1,0 +1,188 @@
+
+https://webpack.js.org/
+
+----------------------------------------------------------------------------
+
+1. 安装
+
+	> cnpm i webpack -D
+
+
+
+没有webpack：
+
+每个js文件都单独引用，性能不高。将所有的js都压缩到一个文件里，叫打包。
+
+2. webpack打包
+
+直接引用jquery文件无法打包，必须去npm下载一个jquery(-D是--save-dev的简称，-S是--save的简称)
+
+> cnpm i jquery -S
+
+dependencies: 生产环境的依赖
+
+Devdependencies:开发环境的依赖
+
+===========
+命令：npx webpack src文件 dist文件
+
+npx 会帮你执行依赖包里的二进制文件（自动查找当前依赖包中的可执行文件，如果找不到，就会去 PATH 里找。如果依然找不到，就会帮你安装！）
+
+npx http-server 可以一句话帮你开启一个静态服务器！（第一次运行会稍微慢一些）
+
+
+3. 配置webpack.config.js
+
+路径要写绝对路径—— __dirname
+
+webpack 		#试图寻找webpack.config.js
+webpack --config xxx.js
+
+------------------------------------------------------------------
+
+Devdependencies 	开发环境依赖：开发环境下用——不需要被打包到生产环境(最终结果文件)
+dependencies 		生产依赖：需要被打包到生产环境
+
+默认：用到哪个，就打包哪个（根据import来打包），dependencies里配置了也没用
+
+------------------------------------------------------------------
+
+JS打包
+
+资源打包（css，图片，其他文件...）
+
+------------------------------------------------------------------
+
+资源-asset
+
+------------------------------------------------------------------
+
+打包css文件
+
+1. 安装loader
+style-loader: 把css注入到style中
+
+css-loader: 编译css本身，import编译为url
+
+配合使用
+
+2. 配置webpack
+
+module:{
+	rules: [
+		{
+			test:/正则/
+			use: ['loader名', ...]
+		},
+		...
+	]
+}
+
+3. 监视变化，进行编译
+npx webpack --config webpack2.config.js --watch
+
+* 只是自动编译，不能自动同步
+
+------------------------------------------------------------------
+
+webpack-dev-server
+
+* 只能自动同步，不能自动编译
+
+------------------------------------------------------------------
+
+打包图片文件
+
+1. 安装loader
+
+image-loader x  没用呢
+
+file-loader(文件打包)		图片也是个二进制文件
+
+
+------------------------------------------------------------------
+
+path: path.resolve(__dirname, 'dist'); //路径拼接功能，详见path.js
+
+------------------------------------------------------------------
+
+多设备同步更新
+
+1. 用现成的：browser-sync
+2. 自己写的：web-socket
+
+
+alert 框同步：
+
+重写系统的alert
+
+let _alert = window.alert;
+
+window.alert = function(str){
+	sock.emit('alert', str);
+	_alert(str);
+}
+
+sock.on('alert', (str)=>{
+	
+});
+------------------------------------------------------------------
+
+操作流程：
+
+package.json中定义的scripts可以帮助我们快速进行编译调试
+
+编译：npm run build
+
+起server: npm run start
+
+------------------------------------------------------------------
+
+多个文件入口怎么处理
+
+1. 多个模块打包到一起
+
+entry: [xxx]
+
+2. 多个模块分开打包
+
+output是一个function
+function(){
+	
+}
+
+
+
+------------------------------------------------------------------
+
+
+webpack反向代理：前端页面想要请求另一个域名下的资源，可以先请求后台,后台可以跨域去请求，然后再把这个结果返回
+
+www.a.com/a.html	->		www.a.com/api		-> 	www.b.com/xxx
+
+现在你想要请求: http://www.b.com/data/1.data
+
+Proxy:{
+	"/api":{
+		target: "http://www.b.com",
+		pathRewrite: {"^/api":"/data"}
+	}
+}
+
+$.ajax({
+	'url':'http://localhost:8080.com/api/1.data'
+	当你请求api下的1.data时，请求的就是b.com下的1.data
+})}
+
+
+
+------------------------------------------------------------------
+
+浏览器实时更新最新的代码
+websocket
+
+sock.on('update', ()=>{
+	location.reload(true);
+	//局部刷新
+});
+
