@@ -32,7 +32,7 @@ conn.release();
 
 
 dbConn.end()
-dbPool.end()
+dbPool.end()  关掉浏览器后Pool自然会关掉，所业务中不用手动关。有时候需要关掉Pool，如果你要不关掉server，重新启动连接。
 */
 let db = mysql.createConnection({ host: 'localhost', port: 3306, user: 'root', password:'cctv.com', database: '20171117'});
 
